@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="flex items-center gap-2 flex-wrap text-sm">
-            <button onclick="refreshData()" class="bg-slate-800 hover:bg-slate-700 text-amber-400 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1"><i class="fas fa-sync-alt"></i> تحديث</button>
+            <button onclick="loadPatients()" class="bg-slate-800 hover:bg-slate-700 text-amber-400 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1"><i class="fas fa-sync-alt"></i> تحديث</button>
             <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg flex items-center gap-1"><i class="fas fa-file-excel"></i> تصدير Excel</button>
         </div>
     </header>
@@ -103,7 +103,7 @@
             </div>
 
             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2">
-                <i class="fas fa-save"></i> حفظ المريض في السجل السحابي
+                <i class="fas fa-save"></i> حفظ المريض في السجل السحابي المشترك
             </button>
         </form>
     </div>
@@ -120,4 +120,30 @@
                     <tr>
                         <th class="p-3">اسم المريض / الجوال</th>
                         <th class="p-3">نوع المعاملة</th>
-                        <th class="p-3">الأصناف
+                        <th class="p-3">الأصناف المطلوبة</th>
+                        <th class="p-3">القيمة</th>
+                        <th class="p-3">حالة التواصل والرغبة</th>
+                        <th class="p-3">ملاحظات</th>
+                        <th class="p-3 text-center">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="patientsTable" class="divide-y divide-slate-100">
+                    <tr><td colspan="7" class="p-4 text-center text-slate-400">جاري الاتصال بقاعدة البيانات السحابية...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const DB_URL = "https://pharmacy-1081-default-rtdb.asia-southeast1.firebasedatabase.app/patients.json";
+        let currentPatients = {};
+
+        function loadPatients() {
+            fetch(DB_URL)
+                .then(res => res.json())
+                .then(data => {
+                    currentPatients = data || {};
+                    renderTable();
+                })
+                .catch(err => {
+                    console.error("
