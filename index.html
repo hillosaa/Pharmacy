@@ -8,10 +8,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
-        body { font-family: 'Cairo', sans-serif; background-color: #0f172a; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
     </style>
 </head>
-<body class="p-2 md:p-6 text-slate-100">
+<body class="p-2 md:p-6 text-slate-800">
 
     <!-- Header -->
     <header class="bg-slate-900 text-white rounded-2xl p-4 mb-6 shadow-lg flex flex-wrap justify-between items-center gap-4 border-b-4 border-amber-400">
@@ -40,58 +40,58 @@
 
     <!-- Stats Grid -->
     <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm text-center">
-            <div class="text-xs font-bold text-slate-400 mb-1">إجمالي الحالات</div>
-            <div id="stat-total" class="text-2xl font-black text-white">0</div>
-            <div class="text-[10px] text-slate-500 mt-1">مريض للشهر المختاره</div>
+        <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm text-center">
+            <div class="text-xs font-bold text-slate-500 mb-1">إجمالي الحالات</div>
+            <div id="stat-total" class="text-2xl font-black text-slate-900">0</div>
+            <div class="text-[10px] text-slate-400 mt-1">مريض للشهر المختاره</div>
         </div>
-        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm text-center">
-            <div class="text-xs font-bold text-slate-400 mb-1">نسبة التواصل</div>
-            <div id="stat-contact-rate" class="text-2xl font-black text-cyan-400">0%</div>
-            <div class="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
-                <div id="stat-progress" class="bg-cyan-400 h-full w-0"></div>
+        <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm text-center">
+            <div class="text-xs font-bold text-slate-500 mb-1">نسبة التواصل</div>
+            <div id="stat-contact-rate" class="text-2xl font-black text-blue-600">0%</div>
+            <div class="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
+                <div id="stat-progress" class="bg-blue-600 h-full w-0"></div>
             </div>
         </div>
-        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm text-center">
-            <div class="text-xs font-bold text-slate-400 mb-1">وصفتي ريفيل</div>
-            <div id="stat-wasfaty" class="text-2xl font-black text-purple-400">0 ر.س</div>
-            <div id="stat-wasfaty-count" class="text-[10px] text-slate-500 mt-1">0 وصفة</div>
+        <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm text-center">
+            <div class="text-xs font-bold text-slate-500 mb-1">وصفتي ريفيل</div>
+            <div id="stat-wasfaty" class="text-2xl font-black text-purple-600">0 ر.س</div>
+            <div id="stat-wasfaty-count" class="text-[10px] text-slate-400 mt-1">0 وصفة</div>
         </div>
-        <div class="bg-slate-900 border border-emerald-900/50 bg-emerald-950/20 p-4 rounded-2xl shadow-sm text-center">
-            <div class="text-xs font-bold text-emerald-400 mb-1"><i class="fas fa-money-bill-wave"></i> حجز راتب 27</div>
-            <div id="stat-salary" class="text-2xl font-black text-emerald-400">2</div>
-            <div class="text-[10px] text-emerald-500/70 mt-1">٢,٠٣٠ ر.س مضمونة</div>
+        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl shadow-sm text-center">
+            <div class="text-xs font-bold text-emerald-700 mb-1"><i class="fas fa-money-bill-wave"></i> حجز راتب 27</div>
+            <div id="stat-salary" class="text-2xl font-black text-emerald-600">2</div>
+            <div class="text-[10px] text-emerald-600/80 mt-1">٢,٠٣٠ ر.س مضمونة</div>
         </div>
-        <div class="bg-slate-900 border border-amber-900/50 bg-amber-950/20 p-4 rounded-2xl shadow-sm text-center">
-            <div class="text-xs font-bold text-amber-400 mb-1"><i class="fas fa-plane-departure"></i> صرف إجازة مبكر</div>
-            <div id="stat-vacation" class="text-2xl font-black text-amber-400">2</div>
-            <div class="text-[10px] text-amber-500/70 mt-1">١,٠٣٠ ر.س استباق</div>
+        <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl shadow-sm text-center">
+            <div class="text-xs font-bold text-amber-700 mb-1"><i class="fas fa-plane-departure"></i> صرف إجازة مبكر</div>
+            <div id="stat-vacation" class="text-2xl font-black text-amber-600">2</div>
+            <div class="text-[10px] text-amber-600/80 mt-1">١,٠٣٠ ر.س استباق</div>
         </div>
     </div>
 
     <!-- Add Patient Form Section -->
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl p-5 mb-6">
-        <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
-            <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-user-plus text-blue-500"></i> تسجيل مريض جديد للمتابعة وإعادة الصرف</h2>
-            <span class="bg-blue-900/40 text-blue-400 text-xs px-3 py-1 rounded-full border border-blue-800">وضع الإضافة السحابي</span>
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 mb-6">
+        <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
+            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2"><i class="fas fa-user-plus text-blue-600"></i> تسجيل مريض جديد للمتابعة وإعادة الصرف</h2>
+            <span class="bg-blue-50 text-blue-600 text-xs px-3 py-1 rounded-full border border-blue-200">وضع الإضافة السحابي</span>
         </div>
         
         <form id="patientForm" onsubmit="savePatient(event)" class="space-y-4">
             <div>
-                <label class="block text-xs font-bold mb-1 text-slate-300">نوع المعاملة *</label>
+                <label class="block text-xs font-bold mb-1 text-slate-700">نوع المعاملة *</label>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <label class="border border-slate-700 bg-slate-800/50 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:border-blue-500 transition">
+                    <label class="border border-slate-200 bg-slate-50 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:border-blue-500 transition">
                         <input type="radio" name="type" value="تأمين مزمن (Chronic)" checked class="w-4 h-4 text-blue-600">
                         <div>
-                            <div class="font-bold text-sm text-white">تأمين مزمن (Chronic)</div>
-                            <div class="text-[11px] text-slate-400">صلاحية 9 أشهر من تاريخ الوصفة</div>
+                            <div class="font-bold text-sm text-slate-800">تأمين مزمن (Chronic)</div>
+                            <div class="text-[11px] text-slate-500">صلاحية 9 أشهر من تاريخ الوصفة</div>
                         </div>
                     </label>
-                    <label class="border border-slate-700 bg-slate-800/50 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:border-blue-500 transition">
+                    <label class="border border-slate-200 bg-slate-50 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:border-blue-500 transition">
                         <input type="radio" name="type" value="وصفتي ريفيل (Wasfaty)" class="w-4 h-4 text-blue-600">
                         <div>
-                            <div class="font-bold text-sm text-white">وصفتي ريفيل (Wasfaty)</div>
-                            <div class="text-[11px] text-slate-400">إعادة صرف الرعاية الأولية</div>
+                            <div class="font-bold text-sm text-slate-800">وصفتي ريفيل (Wasfaty)</div>
+                            <div class="text-[11px] text-slate-500">إعادة صرف الرعاية الأولية</div>
                         </div>
                     </label>
                 </div>
@@ -99,43 +99,43 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-300">اسم المريض / العميل *</label>
-                    <input type="text" id="name" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:border-blue-500 outline-none" placeholder="مثال: عبد الله سالم الحربي" required>
+                    <label class="block text-xs font-bold mb-1 text-slate-700">اسم المريض / العميل *</label>
+                    <input type="text" id="name" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:border-blue-500 outline-none" placeholder="مثال: عبد الله سالم الحربي" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-300">رقم الهوية / الإقامة</label>
-                    <input type="text" id="nationalId" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:border-blue-500 outline-none" placeholder="10xxxxxxxxx / 2xxxxxxxxx">
+                    <label class="block text-xs font-bold mb-1 text-slate-700">رقم الهوية / الإقامة</label>
+                    <input type="text" id="nationalId" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:border-blue-500 outline-none" placeholder="10xxxxxxxxx / 2xxxxxxxxx">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-300">رقم الجوال *</label>
-                    <input type="tel" id="phone" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:border-blue-500 outline-none" placeholder="05xxxxxxxx" required>
+                    <label class="block text-xs font-bold mb-1 text-slate-700">رقم الجوال *</label>
+                    <input type="tel" id="phone" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:border-blue-500 outline-none" placeholder="05xxxxxxxx" required>
                 </div>
             </div>
 
             <div>
-                <label class="block text-xs font-bold mb-1 text-slate-300">الأصناف الدوائية المطلوبة *</label>
-                <input type="text" id="medicines" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:border-blue-500 outline-none" placeholder="مثال: مونجارو 5mg + جلوكوفاج 1000 + كونسيلكور 5 + مكمل رونزاك أوميجا" required>
+                <label class="block text-xs font-bold mb-1 text-slate-700">الأصناف الدوائية المطلوبة *</label>
+                <input type="text" id="medicines" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:border-blue-500 outline-none" placeholder="مثال: مونجارو 5mg + جلوكوفاج 1000 + كونسيلكور 5 + مكمل رونزاك أوميجا" required>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-300">تاريخ كتابة الوصفة الأصلية (لحساب الـ 9 أشهر)</label>
-                    <input type="date" id="prescriptionDate" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:border-blue-500 outline-none">
+                    <label class="block text-xs font-bold mb-1 text-slate-700">تاريخ كتابة الوصفة الأصلية (لحساب الـ 9 أشهر)</label>
+                    <input type="date" id="prescriptionDate" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:border-blue-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-300">تاريخ استحقاق الصرف القادم *</label>
-                    <input type="date" id="dueDate" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:border-blue-500 outline-none" required>
+                    <label class="block text-xs font-bold mb-1 text-slate-700">تاريخ استحقاق الصرف القادم *</label>
+                    <input type="date" id="dueDate" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:border-blue-500 outline-none" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-300">القيمة التقديرية (ريال)</label>
-                    <input type="number" id="price" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:border-blue-500 outline-none" placeholder="مثال: 1250">
+                    <label class="block text-xs font-bold mb-1 text-slate-700">القيمة التقديرية (ريال)</label>
+                    <input type="number" id="price" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:border-blue-500 outline-none" placeholder="مثال: 1250">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-300">هل تم التواصل مع العميل؟ ورغبة العميل</label>
-                    <select id="status" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:border-blue-500 outline-none">
+                    <label class="block text-xs font-bold mb-1 text-slate-700">هل تم التواصل مع العميل؟ ورغبة العميل</label>
+                    <select id="status" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:border-blue-500 outline-none">
                         <option value="⏳ لا (قيد الانتظار لم يتم بعد)">⏳ لا (قيد الانتظار لم يتم بعد)</option>
                         <option value="💰 تم التواصل - حجز ليوم الراتب">💰 تم التواصل - حجز ليوم الراتب</option>
                         <option value="✈️ تم التواصل - صرف إجازة مبكر">✈️ تم التواصل - صرف إجازة مبكر</option>
@@ -143,26 +143,26 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-300">ملاحظات العميل والتوصيل والمكملات المقترحة</label>
-                    <input type="text" id="notes" class="w-full p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:border-blue-500 outline-none" placeholder="اكتبي هنا أي تفاصيل: عنوان التوصيل، موعد السفر، المكمل المقترح...">
+                    <label class="block text-xs font-bold mb-1 text-slate-700">ملاحظات العميل والتوصيل والمكملات المقترحة</label>
+                    <input type="text" id="notes" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:border-blue-500 outline-none" placeholder="اكتبي هنا أي تفاصيل: عنوان التوصيل، موعد السفر، المكمل المقترح...">
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
                 <i class="fas fa-save"></i> حفظ المريض في السجل السحابي المشترك
             </button>
         </form>
     </div>
 
     <!-- Patients List Table Section -->
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
-        <div class="p-4 border-b border-slate-800 flex justify-between items-center">
-            <h3 class="font-bold text-white flex items-center gap-2"><i class="fas fa-list text-slate-400"></i> سجل متابعة المرضى المسجلين سحابياً</h3>
-            <span id="record-count" class="bg-slate-800 text-slate-300 text-xs px-3 py-1 rounded-full font-bold">0 حالة</span>
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-100 flex justify-between items-center">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2"><i class="fas fa-list text-slate-500"></i> سجل متابعة المرضى المسجلين سحابياً</h3>
+            <span id="record-count" class="bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full font-bold">0 حالة</span>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-right text-sm">
-                <thead class="bg-slate-950 text-slate-400 text-xs uppercase font-bold border-b border-slate-800">
+                <thead class="bg-slate-50 text-slate-600 text-xs uppercase font-bold border-b border-slate-200">
                     <tr>
                         <th class="p-3">#</th>
                         <th class="p-3">اسم المريض / الجوال</th>
@@ -175,8 +175,8 @@
                         <th class="p-3 text-center">الإجراءات</th>
                     </tr>
                 </thead>
-                <tbody id="patientsTable" class="divide-y divide-slate-800">
-                    <tr><td colspan="9" class="p-6 text-center text-slate-500">جاري تحميل سجلات المرضى والبيانات السحابية...</td></tr>
+                <tbody id="patientsTable" class="divide-y divide-slate-100">
+                    <tr><td colspan="9" class="p-6 text-center text-slate-400">جاري تحميل سجلات المرضى والبيانات السحابية...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -195,7 +195,7 @@
                 })
                 .catch(err => {
                     console.error("خطأ في الاتصال:", err);
-                    document.getElementById('patientsTable').innerHTML = `<tr><td colspan="9" class="p-4 text-center text-red-400">تعذر الاتصال بقاعدة البيانات السحابية.</td></tr>`;
+                    document.getElementById('patientsTable').innerHTML = `<tr><td colspan="9" class="p-4 text-center text-red-500">تعذر الاتصال بقاعدة البيانات السحابية.</td></tr>`;
                 });
         }
 
@@ -207,11 +207,9 @@
             let total = keys.length;
             let contacted = 0;
             let wasfatyTotal = 0;
-            let salaryCount = 2; // الثوابت الافتراضية
-            let vacationCount = 2;
 
             if (total === 0) {
-                table.innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-500">لا توجد حالات مسجلة حالياً. أضف أول مريض من النموذج بالأعلى!</td></tr>`;
+                table.innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">لا توجد حالات مسجلة حالياً. أضف أول مريض من النموذج بالأعلى!</td></tr>`;
             }
 
             keys.forEach((id, index) => {
@@ -220,21 +218,21 @@
                 if (p.type && p.type.includes('Wasfaty') && p.price) wasfatyTotal += parseFloat(p.price || 0);
 
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-800/50 transition";
+                tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
-                    <td class="p-3 text-slate-500 text-xs font-bold">${index + 1}</td>
+                    <td class="p-3 text-slate-400 text-xs font-bold">${index + 1}</td>
                     <td class="p-3">
-                        <div class="font-bold text-white">${p.name || ''}</div>
-                        <div class="text-xs text-slate-400">${p.phone || ''} ${p.nationalId ? '| ' + p.nationalId : ''}</div>
+                        <div class="font-bold text-slate-800">${p.name || ''}</div>
+                        <div class="text-xs text-slate-500">${p.phone || ''} ${p.nationalId ? '| ' + p.nationalId : ''}</div>
                     </td>
-                    <td class="p-3"><span class="bg-blue-950 text-blue-400 border border-blue-800/50 text-xs px-2.5 py-1 rounded-md font-bold">${p.type || ''}</span></td>
-                    <td class="p-3 text-xs text-slate-300 max-w-xs truncate">${p.medicines || '-'}</td>
-                    <td class="p-3 text-xs text-amber-400 font-bold">${p.dueDate || '-'}</td>
-                    <td class="p-3 font-bold text-emerald-400">${p.price ? p.price + ' ر.س' : '-'}</td>
-                    <td class="p-3"><span class="bg-amber-950/40 text-amber-400 border border-amber-800/50 text-xs px-2.5 py-1 rounded-md font-bold">${p.status || ''}</span></td>
-                    <td class="p-3 text-xs text-slate-400">${p.notes || '-'}</td>
+                    <td class="p-3"><span class="bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2.5 py-1 rounded-md font-bold">${p.type || ''}</span></td>
+                    <td class="p-3 text-xs text-slate-600 max-w-xs truncate">${p.medicines || '-'}</td>
+                    <td class="p-3 text-xs text-amber-600 font-bold">${p.dueDate || '-'}</td>
+                    <td class="p-3 font-bold text-emerald-600">${p.price ? p.price + ' ر.س' : '-'}</td>
+                    <td class="p-3"><span class="bg-amber-50 text-amber-700 border border-amber-200 text-xs px-2.5 py-1 rounded-md font-bold">${p.status || ''}</span></td>
+                    <td class="p-3 text-xs text-slate-500">${p.notes || '-'}</td>
                     <td class="p-3 text-center">
-                        <button onclick="deletePatient('${id}')" class="text-red-400 hover:text-red-300 p-1.5 bg-red-950/40 rounded-lg border border-red-900/50 transition"><i class="fas fa-trash-alt"></i></button>
+                        <button onclick="deletePatient('${id}')" class="text-red-500 hover:text-red-700 p-1.5 bg-red-50 rounded-lg border border-red-200 transition"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 `;
                 table.appendChild(tr);
@@ -293,8 +291,20 @@
             }
         }
 
+        function exportToExcel() {
+            let csv = "اسم المريض,الهوية,الجوال,نوع المعاملة,تاريخ الوصفة,تاريخ الاستحقاق,القيمة,حالة التواصل,الأصناف,الملاحظات\n";
+            Object.values(currentPatients).forEach(p => {
+                csv += `"${p.name || ''}","${p.nationalId || ''}","${p.phone || ''}","${p.type || ''}","${p.prescriptionDate || ''}","${p.dueDate || ''}","${p.price || ''}","${p.status || ''}","${p.medicines || ''}","${p.notes || ''}"\n`;
+            });
+            const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "سجل_مرضى_صيدلية_1081.csv";
+            link.click();
+        }
+
         loadPatients();
-        setInterval(loadPatients, 5000); // مزامنة تلقائية كل 5 ثواني لجميع الدكاترة
+        setInterval(loadPatients, 5000); // مزامنة تلقائية لجميع الدكاترة
     </script>
 </body>
 </html>
