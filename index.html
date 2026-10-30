@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منظومة إعادة الصرف الدوري | صيدليات الدواء فرع 1081 ينبع الصناعية</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * { font-family: 'Tajawal', sans-serif; }
+    
+    /* Subtle custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Print styles */
+    @media print {
+      body { background: white !important; color: black !important; padding: 0 !important; }
+      .no-print { display: none !important; }
+      .print-border { border: 1px solid #cbd5e1 !important; box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-white">
+
+  <!-- ==================== HEADER & TOP BAR ==================== -->
+  <header class="bg-slate-900 text-white sticky top-0 z-40 border-b-2 border-amber-400 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-3">
+      
+      <!-- Brand & Branch Identity -->
+      <div class="flex items-center space-x-reverse space-x-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-black text-xl shadow-md border-2 border-amber-300 shrink-0">
+          1081
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-black tracking-tight text-white">صيدليات الدواء — فرع 1081</h1>
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/40">ينبع الصناعية</span>
+          </div>
+          <p class="text-[11px] text-slate-300">منظومة متابعة التأمين المزمن ووصفتي ريفيل | الصرف المبكر وحجوزات الرواتب</p>
+        </div>
+      </div>
+
+      <!-- Controls: Month Picker & Quick Actions -->
+      <div class="flex items-center gap-2 flex-wrap no-print">
+        
+        <!-- Month Selector -->
+        <div class="flex items-center bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-xl gap-2">
+          <label for="monthPicker" class="text-xs text-amber-400 font-bold whitespace-nowrap">📅 شهر المتابعة:</label>
+          <select id="monthPicker" class="bg-slate-900 text-white text-xs font-bold px-2 py-1 rounded-lg border border-slate-600 focus:outline-none focus:border-amber-400">
+            <option value="2026-11">نوفمبر 2026</option>
+            <option value="2026-12">ديسمبر 2026</option>
+            <option value="2027-01">يناير 2027</option>
+            <option value="2027-02">فبراير 2027</option>
+            <option value="2027-03">مارس 2027</option>
+            <option value="2027-04">أبريل 2027</option>
+          </select>
+        </div>
+
+        <!-- Shift Pharmacist Badge -->
+        <div class="flex items-center bg-slate-800 border border-slate-700 px-2.5 py-1.5 rounded-xl gap-1.5 text-xs">
+          <span class="text-sky-400">👨‍⚕️</span>
+          <input type="text" id="shiftPharmacistInput" value="صيدلاني الفرع" placeholder="اسم صيدلي الشفت" class="bg-transparent text-white text-xs font-bold w-28 focus:outline-none border-b border-transparent focus:border-sky-400">
+        </div>
+
+        <!-- Quick Data Tools (Export / Backup) -->
+        <button id="btnExportExcel" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-2 rounded-xl transition shadow flex items-center gap-1 active:scale-95" title="تصدير كملف إكسل متوافق مع اللغة العربية">
+          <span>📊</span>
+          <span>تصدير Excel</span>
+        </button>
+
+        <button id="btnBackupJson" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs px-2.5 py-2 rounded-xl transition flex items-center gap-1" title="نسخ احتياطي للبيانات لنقلها لجهاز آخر">
+          <span>💾</span>
+          <span>نسخ احتياطي</span>
+        </button>
+
+        <label class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs px-2.5 py-2 rounded-xl transition flex items-center gap-1 cursor-pointer" title="استرجاع نسخة محفوظة من جهاز آخر">
+          <span>📂</span>
+          <span>استرجاع</span>
+          <input type="file" id="restoreFileInput" accept=".json" class="hidden">
+        </label>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT CONTAINER ==================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+
+    <!-- DASHBOARD KPI CARDS -->
+    <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      
+      <!-- Card 1: Total Patients -->
+      <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <span class="text-xs font-bold text-slate-500">إجمالي الحالات</span>
+        <div class="mt-2">
+          <h3 id="statTotal" class="text-2xl font-black text-slate-900">0</h3>
+          <span class="text-[10px] text-slate-400 block mt-0.5">مريض للشهر المختار</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Contact Rate -->
+      <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <span class="text-xs font-bold text-sky-700">نسبة التواصل</span>
+        <div class="mt-2">
+          <div class="flex items-baseline justify-between">
+            <h3 id="statContactRate" class="text-2xl font-black text-sky-600">0%</h3>
+            <span id="statContactCount" class="text-[10px] text-slate-500 font-bold">0 / 0</span>
+          </div>
+          <div class="w-full bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
+            <div id="statContactBar" class="bg-sky-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Insurance Value -->
+      <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <span class="text-xs font-bold text-blue-800">تأمين مزمن (VIP)</span>
+        <div class="mt-2">
+          <h3 id="statInsuranceVal" class="text-lg font-black text-blue-700">0 ر.س</h3>
+          <span id="statInsuranceCount" class="text-[10px] font-bold text-slate-500 block mt-0.5">0 وصفة</span>
+        </div>
+      </div>
+
+      <!-- Card 4: Wasfaty Value -->
+      <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <span class="text-xs font-bold text-purple-800">وصفتي ريفيل</span>
+        <div class="mt-2">
+          <h3 id="statWasfatyVal" class="text-lg font-black text-purple-700">0 ر.س</h3>
+          <span id="statWasfatyCount" class="text-[10px] font-bold text-slate-500 block mt-0.5">0 وصفة</span>
+        </div>
+      </div>
+
+      <!-- Card 5: Day 27 Salary Reserve -->
+      <div class="bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-2xl p-3.5 shadow-sm flex flex-col justify-between">
+        <span class="text-xs font-extrabold text-emerald-100">💰 حجز راتب 27</span>
+        <div class="mt-2">
+          <h3 id="statSalaryCount" class="text-2xl font-black text-white">0</h3>
+          <span id="statSalaryVal" class="text-[10px] font-extrabold text-emerald-100 block mt-0.5">0 ر.س مضمونة</span>
+        </div>
+      </div>
+
+      <!-- Card 6: Pre-Vacation Early Refill -->
+      <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-3.5 border border-amber-200 shadow-sm flex flex-col justify-between">
+        <span class="text-xs font-extrabold text-amber-800">✈️ صرف إجازة مبكر</span>
+        <div class="mt-2">
+          <h3 id="statEarlyCount" class="text-2xl font-black text-amber-800">0</h3>
+          <span id="statEarlyVal" class="text-[10px] font-bold text-amber-700 block mt-0.5">0 ر.س استباق</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== INTERACTIVE FORM (ADD & EDIT) ==================== -->
+    <section class="bg-white rounded-2xl border-2 border-slate-200 shadow-md overflow-hidden transition-all duration-300">
+      
+      <!-- Form Header -->
+      <div class="bg-gradient-to-r from-slate-900 via-sky-950 to-slate-900 text-white px-5 py-3.5 flex justify-between items-center border-b-2 border-amber-400">
+        <div class="flex items-center gap-2">
+          <span id="formIconBadge" class="text-amber-400 text-base font-bold">➕</span>
+          <h2 id="formHeading" class="text-sm font-extrabold">تسجيل مريض جديد للمتابعة وإعادة الصرف</h2>
+        </div>
+        <span id="formModeBadge" class="text-[10px] bg-sky-500/20 text-sky-300 border border-sky-400/40 px-2 py-0.5 rounded-full font-bold">وضع الإضافة</span>
+      </div>
+
+      <!-- Form Inputs Container -->
+      <div class="p-5 space-y-4">
+        
+        <!-- Hidden Record ID -->
+        <input type="hidden" id="fieldRecordId" value="">
+
+        <!-- Row 1: Service Type -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">نوع المعاملة *</label>
+          <div class="grid grid-cols-2 gap-3 max-w-md">
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer hover:border-sky-500 transition has-[:checked]:bg-sky-50 has-[:checked]:border-sky-600">
+              <input type="radio" name="fieldServiceType" value="insurance" checked class="text-sky-600 focus:ring-sky-500">
+              <div>
+                <span class="text-xs font-extrabold text-slate-800 block">تأمين مزمن (Chronic)</span>
+                <span class="text-[10px] text-slate-500">صلاحية 9 أشهر من تاريخ الوصفة</span>
+              </div>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer hover:border-purple-500 transition has-[:checked]:bg-purple-50 has-[:checked]:border-purple-600">
+              <input type="radio" name="fieldServiceType" value="wasfaty" class="text-purple-600 focus:ring-purple-500">
+              <div>
+                <span class="text-xs font-extrabold text-slate-800 block">وصفتي ريفيل (Wasfaty)</span>
+                <span class="text-[10px] text-slate-500">إعادة صرف الرعاية الأولية</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Row 2: Basic Info (Name, ID, Phone, Value) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <div>
+            <label for="fieldName" class="block font-bold text-slate-700 mb-1">اسم المريض / العميل <span class="text-rose-500">*</span></label>
+            <input type="text" id="fieldName" placeholder="مثال: عبد الله سالم الحربي" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50 focus:bg-white transition">
+          </div>
+          <div>
+            <label for="fieldNationalId" class="block font-bold text-slate-700 mb-1">رقم الهوية / الإقامة</label>
+            <input type="text" id="fieldNationalId" placeholder="10xxxxxxxx / 2xxxxxxxxx" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50 focus:bg-white font-mono transition">
+          </div>
+          <div>
+            <label for="fieldPhone" class="block font-bold text-slate-700 mb-1">رقم الجوال <span class="text-rose-500">*</span></label>
+            <input type="tel" id="fieldPhone" placeholder="05xxxxxxxx" dir="ltr" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50 focus:bg-white font-mono text-left transition">
+          </div>
+          <div>
+            <label for="fieldValue" class="block font-bold text-slate-700 mb-1">القيمة التقديرية (ريال)</label>
+            <input type="number" id="fieldValue" min="0" step="10" placeholder="مثال: 1250" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50 focus:bg-white font-bold transition">
+          </div>
+        </div>
+
+        <!-- Row 3: Prescribed Items -->
+        <div class="text-xs">
+          <label for="fieldMedications" class="block font-bold text-slate-700 mb-1">الأصناف الدوائية المطلوبة <span class="text-rose-500">*</span></label>
+          <input type="text" id="fieldMedications" placeholder="مثال: مونجارو 5mg + جلوكوفاج 1000 + كونسيلكور 5 + مكمل رونزاك أوميجا" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50 focus:bg-white transition">
+        </div>
+
+        <!-- Row 4: Dates & 9-Month Chronic Insurance Validity Calculator -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs">
+          <div>
+            <label for="fieldPrescriptionDate" class="block font-bold text-slate-700 mb-1">
+              <span>تاريخ كتابة الوصفة الأصلية</span>
+              <span class="text-amber-600 font-extrabold text-[10px]">(لحساب الـ 9 أشهر)</span>
+            </label>
+            <input type="date" id="fieldPrescriptionDate" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+          </div>
+          <div>
+            <label for="fieldDueDate" class="block font-bold text-slate-700 mb-1">تاريخ استحقاق الصرف القادم</label>
+            <input type="date" id="fieldDueDate" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white font-bold text-sky-900">
+          </div>
+          <div class="flex flex-col justify-center">
+            <span class="font-bold text-slate-600 block mb-1">حالة صلاحية التأمين (9 أشهر):</span>
+            <div id="fieldValidityPreview" class="text-[11px] font-bold p-1.5 rounded-lg text-center bg-slate-200 text-slate-600">
+              أدخلي تاريخ الوصفة للحساب التلقائي
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 5: Contact Status & Refill Wish -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div>
+            <label for="fieldContacted" class="block font-bold text-slate-700 mb-1">هل تم التواصل مع العميل؟</label>
+            <select id="fieldContacted" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white font-bold text-slate-800">
+              <option value="no" selected>لا (قيد الانتظار لم يتم بعد) ⏳</option>
+              <option value="yes">نعم (تم التواصل بنجاح) ✓</option>
+            </select>
+          </div>
+          <div>
+            <label for="fieldDesire" class="block font-bold text-slate-700 mb-1">رغبة وإجراء الصرف</label>
+            <select id="fieldDesire" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white font-extrabold text-slate-800">
+              <option value="salary_27" selected>💰 حجز ليوم الراتب (27 نوفمبر)</option>
+              <option value="pre_vacation">✈️ صرف إجازة مبكر (قبل 20)</option>
+              <option value="yes">✅ نعم يرغب بالصرف الفوري</option>
+              <option value="postponed">⏳ مؤجل لوقت آخر</option>
+              <option value="no">❌ لا يرغب / اعتذر</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 6: Notes Field -->
+        <div class="text-xs">
+          <label for="fieldNotes" class="block font-bold text-slate-700 mb-1">ملاحظات العميل والتوصيل والمكملات المقترحة</label>
+          <textarea id="fieldNotes" rows="2" placeholder="اكتبي هنا أي تفاصيل: عنوان التوصيل، موعد السفر بإجازة الخريف، المكمل المقترح (رونزاك 1+1)، أو وقت الاتصال المفضل..." class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50 focus:bg-white transition resize-none"></textarea>
+        </div>
+
+        <!-- Form Action Buttons -->
+        <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-100">
+          <button type="button" id="btnCancelEdit" onclick="resetFormToNew()" class="px-4 py-2 border border-slate-300 text-slate-600 rounded-xl hover:bg-slate-100 font-bold text-xs transition hidden">
+            إلغاء التعديل
+          </button>
+          <button type="button" id="btnSaveRecord" onclick="handleFormSubmit()" class="px-6 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-extrabold text-xs shadow-md transition active:scale-95 flex items-center gap-1.5">
+            <span id="btnSaveText">حفظ المريض في السجل</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SEARCH, FILTERS & PATIENTS TABLE ==================== -->
+    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-border">
+      
+      <!-- Table Filter Bar -->
+      <div class="p-4 bg-slate-50/80 border-b border-slate-200 space-y-3 no-print">
+        <div class="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3">
+          
+          <!-- Search Input -->
+          <div class="relative flex-1">
+            <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+            <input type="text" id="filterSearch" placeholder="بحث فوري: اسم المريض، الهوية، الجوال، الصنف (مونجارو...)، الملاحظات..." class="w-full pr-10 pl-4 py-2 text-xs border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition">
+          </div>
+
+          <!-- Dropdowns -->
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <select id="filterType" class="bg-white border border-slate-300 rounded-xl px-2.5 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <option value="ALL">جميع الخدمات (تأمين + وصفتي)</option>
+              <option value="insurance">تأمين مزمن (Chronic)</option>
+              <option value="wasfaty">وصفتي ريفيل (Wasfaty)</option>
+            </select>
+
+            <select id="filterContact" class="bg-white border border-slate-300 rounded-xl px-2.5 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <option value="ALL">حالة التواصل (الكل)</option>
+              <option value="yes">تم التواصل بنجاح ✓</option>
+              <option value="no">لم يتم التواصل بعد ⏳</option>
+            </select>
+
+            <select id="filterDesire" class="bg-white border border-slate-300 rounded-xl px-2.5 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <option value="ALL">إجراء الصرف (الكل)</option>
+              <option value="salary_27">💰 حجز ليوم الراتب 27</option>
+              <option value="pre_vacation">✈️ صرف إجازة مبكر</option>
+              <option value="yes">✅ صرف فوري</option>
+              <option value="postponed">⏳ مؤجل</option>
+              <option value="no">❌ لا يرغب</option>
+            </select>
+
+            <select id="filterValidity" class="bg-white border border-slate-300 rounded-xl px-2.5 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <option value="ALL">صلاحية التأمين (الكل)</option>
+              <option value="valid">صالحة</option>
+              <option value="expiring">قاربت على الانتهاء (&le; 30 يوماً)</option>
+              <option value="expired">منتهية الصلاحية</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="flex flex-wrap justify-between items-center text-[11px] text-slate-500 pt-1">
+          <span>يتم عرض: <strong id="showingCount" class="text-slate-800 font-bold">0</strong> مريض من إجمالي <strong id="totalCountInMonth" class="text-slate-800 font-bold">0</strong> لهذا الشهر</span>
+          <span class="text-teal-700 font-bold">مجموع مبالغ الحالات المعروضة: <strong id="showingTotalSum">0</strong> ر.س</span>
+        </div>
+      </div>
+
+      <!-- Table View -->
+      <div class="overflow-x-auto min-h-[300px]">
+        <table class="w-full text-right text-xs">
+          <thead class="bg-slate-900 text-white font-bold border-b border-slate-800">
+            <tr>
+              <th class="py-3 px-2.5 text-center w-10">#</th>
+              <th class="py-3 px-3 w-28">الخدمة</th>
+              <th class="py-3 px-3">المريض</th>
+              <th class="py-3 px-3 w-36">الجوال والتواصل</th>
+              <th class="py-3 px-2.5 text-center w-24">تاريخ الوصفة</th>
+              <th class="py-3 px-2.5 text-center w-24">الاستحقاق</th>
+              <th class="py-3 px-2.5 text-center w-36">صلاحية الـ 9 أشهر</th>
+              <th class="py-3 px-3 min-w-[150px]">الأصناف المطلوبة</th>
+              <th class="py-3 px-2.5 text-center w-24">القيمة</th>
+              <th class="py-3 px-2.5 text-center w-20">التواصل</th>
+              <th class="py-3 px-3 text-center w-32">إجراء الصرف</th>
+              <th class="py-3 px-3 min-w-[180px]">الملاحظات</th>
+              <th class="py-3 px-3 text-center w-24 no-print">إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-slate-100 bg-white">
+            <!-- Rendered by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State Indicator -->
+      <div id="tableEmptyState" class="hidden py-14 text-center space-y-2">
+        <div class="text-3xl text-slate-300">📋</div>
+        <h3 class="text-xs font-bold text-slate-700">لا توجد حالات مسجلة مطابقة للبحث أو الفلتر لهذا الشهر</h3>
+        <p class="text-[11px] text-slate-400">استخدمي النموذج أعلاه لإضافة أول مريض وسيبدأ الحفظ فوراً</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-white border-t border-slate-200 py-3 text-xs text-slate-500 no-print">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div>صيدليات الدواء — فرع 1081 ينبع الصناعية | النظام التشغيلي لإعادة الصرف الدوري</div>
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-bold text-slate-700">تخزين فوري محمي ومستقل لكل شهر (Local Offline-Ready Engine)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== PURE JAVASCRIPT LOGIC ==================== -->
+  <script>
+    // Master Storage Key
+    const STORAGE_KEY = 'dawaa_1081_patients_master_v4';
+
+    // Benchmark Initial Data
+    const initialBenchmarkData = [
+      {
+        id: "rec_1",
+        month: "2026-11",
+        serviceType: "insurance",
+        name: "عبدالله سالم الجهني",
+        nationalId: "1034892110",
+        phone: "0554129841",
+        prescriptionDate: "2026-06-15",
+        dueDate: "2026-11-27",
+        medications: "مونجارو 5 ملغ (Mounjaro) + فيتامين د",
+        value: 1250,
+        contacted: "yes",
+        desire: "salary_27",
+        pharmacist: "صيدلاني الفرع",
+        notes: "حجز مؤكد لصرفه يوم الراتب 27 قبل السفر. تم اقتراح مكمل رونزاك 1+1."
+      },
+      {
+        id: "rec_2",
+        month: "2026-11",
+        serviceType: "insurance",
+        name: "فاطمة أحمد الغامدي",
+        nationalId: "1087452319",
+        phone: "0503348122",
+        prescriptionDate: "2026-03-20",
+        dueDate: "2026-11-16",
+        medications: "جلوكوفاج 1000 + كونسيلكور 5 ملغ + أتورفاستاتين",
+        value: 480,
+        contacted: "yes",
+        desire: "pre_vacation",
+        pharmacist: "صيدلاني الفرع",
+        notes: "ترغب بالصرف يوم 17 نوفمبر قبل السفر لجدة بإجازة الخريف."
+      },
+      {
+        id: "rec_3",
+        month: "2026-11",
+        serviceType: "wasfaty",
+        name: "خالد سعيد باوزير",
+        nationalId: "2048910243",
+        phone: "0548891230",
+        prescriptionDate: "2026-10-01",
+        dueDate: "2026-11-04",
+        medications: "أملور 5 ملغ + يوكرياس 50/1000",
+        value: 320,
+        contacted: "yes",
+        desire: "yes",
+        pharmacist: "صيدلاني الفرع",
+        notes: "تم الصرف وتجهيزه للاستلام المسائي مع عرض شرائط السكر 50%."
+      },
+      {
+        id: "rec_4",
+        month: "2026-11",
+        serviceType: "insurance",
+        name: "عمر فهد السريحي",
+        nationalId: "1098234109",
+        phone: "0561234901",
+        prescriptionDate: "2026-08-10",
+        dueDate: "2026-11-27",
+        medications: "ويجوفي 1 ملغ (Wegovy) + أوميجا 3",
+        value: 1100,
+        contacted: "no",
+        desire: "salary_27",
+        pharmacist: "صيدلاني الفرع",
+        notes: "موظف بشركة سابك. إرسال تذكير واتساب للحجز المبكر."
+      },
+      {
+        id: "rec_5",
+        month: "2026-11",
+        serviceType: "wasfaty",
+        name: "سارة محمود الشريف",
+        nationalId: "1056782390",
+        phone: "0539981240",
+        prescriptionDate: "2026-09-12",
+        dueDate: "2026-11-18",
+        medications: "إنسولين لانتوس سولوستار + شرائط فحص",
+        value: 650,
+        contacted: "yes",
+        desire: "pre_vacation",
+        pharmacist: "صيدلاني الفرع",
+        notes: "تم الاتصال ووافقت على استلام الوصفة يوم 18 نوفمبر صباحاً."
+      }
+    ];
+
+    // Data Store in Memory
+    let masterData = [];
+
+    // Load from LocalStorage
+    function loadData() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored === null) {
+        masterData = [...initialBenchmarkData];
+        saveData();
+      } else {
+        try {
+          masterData = JSON.parse(stored) || [];
+        } catch (e) {
+          masterData = [...initialBenchmarkData];
+          saveData();
+        }
+      }
+    }
+
+    // Save to LocalStorage
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(masterData));
+    }
+
+    // Helper: 9-Month Chronic Insurance Validity Calculator
+    function calculateChronicValidity(rxDateStr) {
+      if (!rxDateStr) {
+        return { status: 'unknown', text: 'غير محدد', badgeClass: 'bg-slate-100 text-slate-500' };
+      }
+      const rxDate = new Date(rxDateStr);
+      if (isNaN(rxDate.getTime())) {
+        return { status: 'unknown', text: 'تاريخ غير صالح', badgeClass: 'bg-slate-100 text-slate-500' };
+      }
+
+      // Add 9 Months
+      const expiryDate = new Date(rxDate);
+      expiryDate.setMonth(expiryDate.getMonth() + 9);
+
+      const today = new Date();
+      const diffTime = expiryDate.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 0) {
+        return {
+          status: 'expired',
+          daysLeft: diffDays,
+          text: `منتهية (انتهت منذ ${Math.abs(diffDays)} يوم)`,
+          badgeClass: 'bg-rose-100 text-rose-800 border border-rose-300 font-extrabold'
+        };
+      } else if (diffDays <= 30) {
+        return {
+          status: 'expiring',
+          daysLeft: diffDays,
+          text: `أوشكت (متبقي ${diffDays} يوم)`,
+          badgeClass: 'bg-amber-100 text-amber-900 border border-amber-300 font-extrabold'
+        };
+      } else {
+        const months = Math.floor(diffDays / 30);
+        return {
+          status: 'valid',
+          daysLeft: diffDays,
+          text: `صالحة (${months} شهر / ${diffDays} يوم)`,
+          badgeClass: 'bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold'
+        };
+      }
+    }
+
+    // Update Live Validity Preview in Form
+    function updateFormValidityPreview() {
+      const rxDate = document.getElementById('fieldPrescriptionDate').value;
+      const previewEl = document.getElementById('fieldValidityPreview');
+      if (!rxDate) {
+        previewEl.className = 'text-[11px] font-bold p-1.5 rounded-lg text-center bg-slate-200 text-slate-600';
+        previewEl.innerText = 'أدخلي تاريخ الوصفة للحساب التلقائي';
+        return;
+      }
+      const val = calculateChronicValidity(rxDate);
+      previewEl.className = `text-[11px] p-1.5 rounded-lg text-center ${val.badgeClass}`;
+      previewEl.innerText = val.text;
+    }
+
+    // Refresh Dashboard KPIs
+    function refreshKPIs(monthList) {
+      const total = monthList.length;
+      document.getElementById('statTotal').innerText = total;
+
+      const contacted = monthList.filter(p => p.contacted === 'yes');
+      const contactPct = total > 0 ? Math.round((contacted.length / total) * 100) : 0;
+      document.getElementById('statContactRate').innerText = contactPct + '%';
+      document.getElementById('statContactCount').innerText = `${contacted.length} / ${total}`;
+      document.getElementById('statContactBar').style.width = contactPct + '%';
+
+      const insList = monthList.filter(p => p.serviceType === 'insurance');
+      const insVal = insList.reduce((sum, p) => sum + (parseFloat(p.value) || 0), 0);
+      document.getElementById('statInsuranceVal').innerText = insVal.toLocaleString() + ' ر.س';
+      document.getElementById('statInsuranceCount').innerText = `${insList.length} وصفة`;
+
+      const wasfatyList = monthList.filter(p => p.serviceType === 'wasfaty');
+      const wasfatyVal = wasfatyList.reduce((sum, p) => sum + (parseFloat(p.value) || 0), 0);
+      document.getElementById('statWasfatyVal').innerText = wasfatyVal.toLocaleString() + ' ر.س';
+      document.getElementById('statWasfatyCount').innerText = `${wasfatyList.length} وصفة`;
+
+      const salaryList = monthList.filter(p => p.desire === 'salary_27');
+      const salaryVal = salaryList.reduce((sum, p) => sum + (parseFloat(p.value) || 0), 0);
+      document.getElementById('statSalaryCount').innerText = salaryList.length;
+      document.getElementById('statSalaryVal').innerText = salaryVal.toLocaleString() + ' ر.س مضمونة';
+
+      const earlyList = monthList.filter(p => p.desire === 'pre_vacation');
+      const earlyVal = earlyList.reduce((sum, p) => sum + (parseFloat(p.value) || 0), 0);
+      document.getElementById('statEarlyCount').innerText = earlyList.length;
+      document.getElementById('statEarlyVal').innerText = earlyVal.toLocaleString() + ' ر.س استباق';
+    }
+
+    // Render Table based on active month and filters
+    function renderApp() {
+      const activeMonth = document.getElementById('monthPicker').value;
+      const monthPatients = masterData.filter(p => !p.month || p.month === activeMonth);
+
+      refreshKPIs(monthPatients);
+
+      // Read filter inputs
+      const search = (document.getElementById('filterSearch').value || '').trim().toLowerCase();
+      const typeF = document.getElementById('filterType').value;
+      const contactF = document.getElementById('filterContact').value;
+      const desireF = document.getElementById('filterDesire').value;
+      const validityF = document.getElementById('filterValidity').value;
+
+      const filtered = monthPatients.filter(p => {
+        const matchSearch = !search ||
+          (p.name && p.name.toLowerCase().includes(search)) ||
+          (p.nationalId && p.nationalId.includes(search)) ||
+          (p.phone && p.phone.includes(search)) ||
+          (p.medications && p.medications.toLowerCase().includes(search)) ||
+          (p.notes && p.notes.toLowerCase().includes(search));
+
+        const matchType = typeF === 'ALL' || p.serviceType === typeF;
+        const matchContact = contactF === 'ALL' || p.contacted === contactF;
+        const matchDesire = desireF === 'ALL' || p.desire === desireF;
+
+        let matchValidity = true;
+        if (validityF !== 'ALL') {
+          const val = calculateChronicValidity(p.prescriptionDate);
+          matchValidity = (val.status === validityF);
+        }
+
+        return matchSearch && matchType && matchContact && matchDesire && matchValidity;
+      });
+
+      const tbody = document.getElementById('tableBody');
+      const emptyState = document.getElementById('tableEmptyState');
+      tbody.innerHTML = '';
+
+      document.getElementById('showingCount').innerText = filtered.length;
+      document.getElementById('totalCountInMonth').innerText = monthPatients.length;
+
+      let sumValue = 0;
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+
+        filtered.forEach((p, index) => {
+          sumValue += (parseFloat(p.value) || 0);
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+
+          // Service Type Badge
+          const serviceBadge = p.serviceType === 'insurance'
+            ? '<span class="bg-sky-50 text-sky-700 border border-sky-200 px-2 py-0.5 rounded-md font-bold text-[10px]">تأمين مزمن</span>'
+            : '<span class="bg-purple-50 text-purple-700 border border-purple-200 px-2 py-0.5 rounded-md font-bold text-[10px]">وصفتي ريفيل</span>';
+
+          // Refill Desire Badge
+          let desireBadge = '';
+          if (p.desire === 'salary_27') {
+            desireBadge = '<span class="bg-emerald-100 text-emerald-900 border border-emerald-300 font-extrabold px-2 py-1 rounded-md text-[10px] block leading-tight">💰 حجز راتب 27</span>';
+          } else if (p.desire === 'pre_vacation') {
+            desireBadge = '<span class="bg-amber-100 text-amber-900 border border-amber-300 font-extrabold px-2 py-1 rounded-md text-[10px] block leading-tight">✈️ صرف إجازة مبكر</span>';
+          } else if (p.desire === 'yes') {
+            desireBadge = '<span class="bg-teal-100 text-teal-800 border border-teal-300 font-bold px-2 py-1 rounded-md text-[10px] block leading-tight">✅ صرف فوري</span>';
+          } else if (p.desire === 'postponed') {
+            desireBadge = '<span class="bg-slate-100 text-slate-700 font-medium px-2 py-1 rounded-md text-[10px] block leading-tight">⏳ مؤجل</span>';
+          } else {
+            desireBadge = '<span class="bg-rose-100 text-rose-800 font-bold px-2 py-1 rounded-md text-[10px] block leading-tight">❌ لا يرغب</span>';
+          }
+
+          // Contact Button (Toggleable on click)
+          const contactBtn = p.contacted === 'yes'
+            ? `<button onclick="toggleContact('${p.id}')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-2 py-1 rounded-lg text-[10px] transition shadow-xs flex items-center gap-1 mx-auto" title="اضغطي للتبديل">
+                 <span>✓ تم</span>
+               </button>`
+            : `<button onclick="toggleContact('${p.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-2 py-1 rounded-lg text-[10px] transition flex items-center gap-1 mx-auto" title="اضغطي للتبديل">
+                 <span>⏳ معلق</span>
+               </button>`;
+
+          // 9-Month Chronic Insurance Validity
+          let validityBadge = '';
+          if (p.serviceType === 'insurance') {
+            const val = calculateChronicValidity(p.prescriptionDate);
+            validityBadge = `<span class="px-2 py-0.5 rounded text-[10px] inline-block ${val.badgeClass}" title="الصلاحية 9 أشهر من تاريخ الوصفة">${val.text}</span>`;
+          } else {
+            validityBadge = `<span class="text-slate-400 text-[10px]">خاص بالتأمين</span>`;
+          }
+
+          // Pre-filled WhatsApp message
+          let cleanPhone = (p.phone || '').replace(/\D/g, '');
+          if (cleanPhone.startsWith('05')) cleanPhone = '966' + cleanPhone.substring(1);
+          
+          const rxTypeTitle = p.serviceType === 'insurance' ? 'أدويتكم التأمينية المزمنة' : 'وصفتكم الطبية عبر وصفتي';
+          const waMsg = encodeURIComponent(
+            `السلام عليكم ورحمة الله وبركاته،\nأهلاً بك أستاذ/ة ${p.name} 🌸\nمعك صيدليات الدواء — فرع 1081 (ينبع الصناعية).\n\nنود إفادتك بحلول موعد إعادة صرف ${rxTypeTitle} والمتضمنة:\n(${p.medications})\n\nهل ترغب بتأكيد تجهيزها لصرفها مبكراً قبل الإجازة أو حجزها ليوم الراتب 27 نوفمبر مع التوصيل لمنزلك؟\nيسعدنا تأكيد رغبتك لخدمتك فوراً 🩺`
+          );
+
+          tr.innerHTML = `
+            <td class="py-3 px-2 text-center font-bold text-slate-400">${index + 1}</td>
+            <td class="py-3 px-2.5">${serviceBadge}</td>
+            <td class="py-3 px-3">
+              <span class="font-extrabold text-slate-900 block text-xs">${escapeHtml(p.name)}</span>
+              <span class="text-[10px] text-slate-500 font-mono">هوية: ${escapeHtml(p.nationalId || '—')}</span>
+            </td>
+            <td class="py-3 px-2.5">
+              <div class="font-mono text-slate-800 font-bold text-[11px] mb-1" dir="ltr">${escapeHtml(p.phone)}</div>
+              <div class="flex items-center gap-1.5">
+                <a href="https://wa.me/${cleanPhone}?text=${waMsg}" target="_blank" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-[10px] px-2 py-0.5 rounded flex items-center gap-1 font-bold transition" title="فتح واتساب برسالة مجهزة">
+                  <span>💬</span><span>واتساب</span>
+                </a>
+                <a href="tel:${escapeHtml(p.phone)}" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] px-2 py-0.5 rounded flex items-center gap-1 font-bold transition" title="اتصال مباشر">
+                  <span>📞</span><span>اتصال</span>
+                </a>
+              </div>
+            </td>
+            <td class="py-3 px-2 text-center font-mono text-[11px] text-slate-600">${escapeHtml(p.prescriptionDate || '—')}</td>
+            <td class="py-3 px-2 text-center font-mono text-[11px] font-bold text-sky-900">${escapeHtml(p.dueDate || '—')}</td>
+            <td class="py-3 px-2 text-center">${validityBadge}</td>
+            <td class="py-3 px-3 font-medium text-slate-800">${escapeHtml(p.medications)}</td>
+            <td class="py-3 px-2 text-center font-bold text-slate-900">${(parseFloat(p.value) || 0).toLocaleString()} ر.س</td>
+            <td class="py-3 px-2 text-center">${contactBtn}</td>
+            <td class="py-3 px-2 text-center">${desireBadge}</td>
+            <td class="py-3 px-3">
+              ${p.notes ? `
+                <div class="bg-amber-50/90 border border-amber-200/90 p-2 rounded-lg text-[11px] text-amber-900 leading-snug">
+                  ${escapeHtml(p.notes)}
+                </div>` : '<span class="text-slate-400 italic text-[10px]">لا توجد ملاحظات</span>'
+              }
+            </td>
+            <td class="py-3 px-2 text-center no-print">
+              <div class="flex items-center justify-center gap-1">
+                <button onclick="startEdit('${p.id}')" title="تعديل بيانات المريض" class="p-1.5 text-slate-400 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition font-bold text-sm">
+                  ✏️
+                </button>
+                <button onclick="deleteRecord('${p.id}')" title="حذف السجل" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition font-bold text-sm">
+                  🗑️
+                </button>
+              </div>
+            </td>
+          `;
+
+          tbody.appendChild(tr);
+        });
+      }
+
+      document.getElementById('showingTotalSum').innerText = sumValue.toLocaleString();
+    }
+
+    // Form Handling: Save or Update Record
+    function handleFormSubmit() {
+      const name = (document.getElementById('fieldName').value || '').trim();
+      const phone = (document.getElementById('fieldPhone').value || '').trim();
+      const medications = (document.getElementById('fieldMedications').value || '').trim();
+
+      if (!name) {
+        alert('يرجى إدخال اسم المريض / العميل.');
+        document.getElementById('fieldName').focus();
+        return;
+      }
+      if (!phone) {
+        alert('يرجى إدخال رقم جوال المريض.');
+        document.getElementById('fieldPhone').focus();
+        return;
+      }
+      if (!medications) {
+        alert('يرجى تحديد الأصناف الدوائية المطلوبة.');
+        document.getElementById('fieldMedications').focus();
+        return;
+      }
+
+      const activeMonth = document.getElementById('monthPicker').value;
+      const pharmacistName = (document.getElementById('shiftPharmacistInput').value || 'صيدلاني الفرع').trim();
+      const recordId = document.getElementById('fieldRecordId').value;
+      
+      const serviceType = document.querySelector('input[name="fieldServiceType"]:checked')?.value || 'insurance';
+      const nationalId = (document.getElementById('fieldNationalId').value || '').trim();
+      const value = parseFloat(document.getElementById('fieldValue').value) || 0;
+      const prescriptionDate = document.getElementById('fieldPrescriptionDate').value || '';
+      const dueDate = document.getElementById('fieldDueDate').value || '';
+      const contacted = document.getElementById('fieldContacted').value || 'no';
+      const desire = document.getElementById('fieldDesire').value || 'salary_27';
+      const notes = (document.getElementById('fieldNotes').value || '').trim();
+
+      if (recordId) {
+        // Mode: Update Existing
+        const index = masterData.findIndex(item => String(item.id) === String(recordId));
+        if (index !== -1) {
+          masterData[index] = {
+            ...masterData[index],
+            serviceType,
+            name,
+            nationalId,
+            phone,
+            value,
+            prescriptionDate,
+            dueDate,
+            medications,
+            contacted,
+            desire,
+            notes,
+            pharmacist: pharmacistName
+          };
+        }
+      } else {
+        // Mode: Create New Record
+        const newRecord = {
+          id: 'rec_' + Date.now().toString(),
+          month: activeMonth,
+          serviceType,
+          name,
+          nationalId,
+          phone,
+          value,
+          prescriptionDate,
+          dueDate,
+          medications,
+          contacted,
+          desire,
+          notes,
+          pharmacist: pharmacistName
+        };
+        masterData.unshift(newRecord);
+      }
+
+      saveData();
+      resetFormToNew();
+      renderApp();
+    }
+
+    // Populate form for editing
+    function startEdit(id) {
+      const record = masterData.find(item => String(item.id) === String(id));
+      if (!record) return;
+
+      // Populate Inputs
+      document.getElementById('fieldRecordId').value = record.id;
+      document.getElementById('fieldName').value = record.name || '';
+      document.getElementById('fieldNationalId').value = record.nationalId || '';
+      document.getElementById('fieldPhone').value = record.phone || '';
+      document.getElementById('fieldValue').value = record.value || '';
+      document.getElementById('fieldMedications').value = record.medications || '';
+      document.getElementById('fieldPrescriptionDate').value = record.prescriptionDate || '';
+      document.getElementById('fieldDueDate').value = record.dueDate || '';
+      document.getElementById('fieldContacted').value = record.contacted || 'no';
+      document.getElementById('fieldDesire').value = record.desire || 'salary_27';
+      document.getElementById('fieldNotes').value = record.notes || '';
+
+      const serviceRadio = document.querySelector(`input[name="fieldServiceType"][value="${record.serviceType}"]`);
+      if (serviceRadio) serviceRadio.checked = true;
+
+      // Update Form UI to Edit Mode
+      document.getElementById('formIconBadge').innerText = '✏️';
+      document.getElementById('formHeading').innerText = `تعديل بيانات المريض: ${record.name}`;
+      document.getElementById('formModeBadge').innerText = 'وضع التعديل النشط';
+      document.getElementById('formModeBadge').className = 'text-[10px] bg-amber-500/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded-full font-bold';
+      document.getElementById('btnSaveText').innerText = 'تحديث بيانات المريض الآن';
+      document.getElementById('btnCancelEdit').classList.remove('hidden');
+
+      updateFormValidityPreview();
+
+      // Scroll smoothly to form
+      document.getElementById('fieldName').focus();
+    }
+
+    // Reset Form to New Record Mode
+    function resetFormToNew() {
+      document.getElementById('fieldRecordId').value = '';
+      document.getElementById('fieldName').value = '';
+      document.getElementById('fieldNationalId').value = '';
+      document.getElementById('fieldPhone').value = '';
+      document.getElementById('fieldValue').value = '';
+      document.getElementById('fieldMedications').value = '';
+      document.getElementById('fieldPrescriptionDate').value = '';
+      document.getElementById('fieldDueDate').value = '';
+      document.getElementById('fieldContacted').value = 'no';
+      document.getElementById('fieldDesire').value = 'salary_27';
+      document.getElementById('fieldNotes').value = '';
+
+      const firstRadio = document.querySelector('input[name="fieldServiceType"][value="insurance"]');
+      if (firstRadio) firstRadio.checked = true;
+
+      // Reset Form UI
+      document.getElementById('formIconBadge').innerText = '➕';
+      document.getElementById('formHeading').innerText = 'تسجيل مريض جديد للمتابعة وإعادة الصرف';
+      document.getElementById('formModeBadge').innerText = 'وضع الإضافة';
+      document.getElementById('formModeBadge').className = 'text-[10px] bg-sky-500/20 text-sky-300 border border-sky-400/40 px-2 py-0.5 rounded-full font-bold';
+      document.getElementById('btnSaveText').innerText = 'حفظ المريض في السجل';
+      document.getElementById('btnCancelEdit').classList.add('hidden');
+
+      updateFormValidityPreview();
+    }
+
+    // Delete Record
+    function deleteRecord(id) {
+      const record = masterData.find(item => String(item.id) === String(id));
+      const name = record ? record.name : 'هذا المريض';
+
+      if (confirm(`هل أنتِ متأكدة من حذف ملف المريض (${name}) نهائياً؟`)) {
+        masterData = masterData.filter(item => String(item.id) !== String(id));
+        saveData();
+
+        // If currently editing this record, reset the form
+        if (document.getElementById('fieldRecordId').value === String(id)) {
+          resetFormToNew();
+        }
+
+        renderApp();
+      }
+    }
+
+    // Toggle contact status directly from table row
+    function toggleContact(id) {
+      const index = masterData.findIndex(item => String(item.id) === String(id));
+      if (index !== -1) {
+        masterData[index].contacted = masterData[index].contacted === 'yes' ? 'no' : 'yes';
+        saveData();
+        renderApp();
+      }
+    }
+
+    // Export Current Month Data to Excel (UTF-8 BOM CSV)
+    function exportToExcel() {
+      const activeMonth = document.getElementById('monthPicker').value;
+      const monthPatients = masterData.filter(p => !p.month || p.month === activeMonth);
+
+      if (monthPatients.length === 0) {
+        alert('لا توجد بيانات متاحة للتصدير في هذا الشهر.');
+        return;
+      }
+
+      const headers = [
+        "م",
+        "شهر_المتابعة",
+        "نوع_الخدمة",
+        "اسم_المريض",
+        "الهوية_الإقامة",
+        "رقم_الجوال",
+        "تاريخ_الوصفة_الأصلية",
+        "تاريخ_الاستحقاق",
+        "صلاحية_الـ_9_أشهر",
+        "الأصناف_الدوائية",
+        "القيمة_التقديرية_ر_س",
+        "حالة_التواصل",
+        "رغبة_وإجراء_الصرف",
+        "الصيدلاني_المسؤول",
+        "الملاحظات_والتوجيهات"
+      ];
+
+      const rows = monthPatients.map((p, idx) => {
+        const val = calculateChronicValidity(p.prescriptionDate);
+        return [
+          idx + 1,
+          `"${p.month || activeMonth}"`,
+          p.serviceType === 'insurance' ? 'تأمين مزمن' : 'وصفتي ريفيل',
+          `"${(p.name || '').replace(/"/g, '""')}"`,
+          `"${(p.nationalId || '').replace(/"/g, '""')}"`,
+          `"${p.phone || ''}"`,
+          p.prescriptionDate || '',
+          p.dueDate || '',
+          `"${val.text}"`,
+          `"${(p.medications || '').replace(/"/g, '""')}"`,
+          p.value || 0,
+          p.contacted === 'yes' ? 'تم التواصل' : 'لم يتم',
+          p.desire === 'salary_27' ? 'حجز ليوم الراتب 27' : (p.desire === 'pre_vacation' ? 'صرف إجازة مبكر' : (p.desire === 'yes' ? 'صرف فوري' : p.desire)),
+          `"${(p.pharmacist || '').replace(/"/g, '""')}"`,
+          `"${(p.notes || '').replace(/"/g, '""')}"`
+        ];
+      });
+
+      const csvContent = "\uFEFF" + headers.join(",") + "\n" + rows.map(r => r.join(",")).join("\n");
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `سجل_إعادة_الصرف_صيدلية_الدواء_1081_${activeMonth}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // Backup to JSON file
+    function backupJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(masterData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `نسخة_احتياطية_صيدلية_الدواء_1081_${Date.now()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    // Restore from JSON file
+    function restoreJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const imported = JSON.parse(event.target.result);
+          if (Array.isArray(imported)) {
+            if (confirm(`تم العثور على ${imported.length} ملف مريض. هل ترغبين في استبدال البيانات الحالية بهذه النسخة؟`)) {
+              masterData = imported;
+              saveData();
+              renderApp();
+              alert('تم استرجاع البيانات بنجاح!');
+            }
+          } else {
+            alert('ملف غير صالح.');
+          }
+        } catch (err) {
+          alert('تعذر قراءة الملف.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Event Listeners setup
+    window.addEventListener('DOMContentLoaded', () => {
+      loadData();
+
+      // Month Picker Change
+      document.getElementById('monthPicker').addEventListener('change', () => {
+        resetFormToNew();
+        renderApp();
+      });
+
+      // Filter Inputs
+      ['filterSearch', 'filterType', 'filterContact', 'filterDesire', 'filterValidity'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', renderApp);
+        if (el) el.addEventListener('change', renderApp);
+      });
+
+      // Prescription Date Input (Real-time validity preview)
+      document.getElementById('fieldPrescriptionDate').addEventListener('change', updateFormValidityPreview);
+
+      // Export & Backup Buttons
+      document.getElementById('btnExportExcel').addEventListener('click', exportToExcel);
+      document.getElementById('btnBackupJson').addEventListener('click', backupJSON);
+      document.getElementById('restoreFileInput').addEventListener('change', restoreJSON);
+
+      // Initial Render
+      renderApp();
+    });
+  </script>
+</body>
+</html>
